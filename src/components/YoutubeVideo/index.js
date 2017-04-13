@@ -18,7 +18,7 @@ export default class YoutubeVideo extends React.Component {
 
   render () {
     var that = this
-    var vidId = 'n6jCJZEFIto'
+    var vidId = 'Aw3fN3OPk3A'
     var vidUrl = ('https://www.youtube.com/watch?v='+vidId)
     return <div className='youtube-video'>
         <h2>YoutubeVideo</h2>
