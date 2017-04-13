@@ -4,9 +4,14 @@ var http = require('http').Server(app)
 var io = require('socket.io')(http)
 var ip = require("ip")
 
+//YouTube stuff for data lookups
+var YouTube = require('youtube-node')
+var youTube = new YouTube()
+youTube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU') // ojam project key for YouTube searches. NOT FOR LARGE SCALE DEPLOYMENT
+
 var localIp = ip.address()
 
-//for managing the array of videos
+//for managing the array of videos :: array will be user propagated
 var trackList = ['Aw3fN3OPk3A','SNE2oCZH_4k', '9imCm6CrNZ8', '52Gg9CqhbP8', 'PZbkF-15ObM'] //stored as youtube video id strings
 var playhead = 0
 
@@ -57,23 +62,34 @@ http.listen(3000, function () {
   console.log('Operating on http://'+localIp+':3000!!')
 })
 
-//TODO triggered when a veto is passed
+//triggered when a veto is passed
 function vetoPassed() {
-  console.log('stop current video') //TODO
-  console.log('load and play next video')//TODO
-  playhead = playhead + 1
-
-  if (!(playhead<trackList.length)){
-    playhead = 0
-  }
-  console.log('Playhead: ' + playhead)
-  console.log('TrackList Length: ' + trackList.length)
-  
-  io.emit('vidId change', trackList[playhead])
-
-  console.log('EMIT new VIDID: '+trackList[playhead])
-  console.log('update title')//TODO
-  io.emit('title change', 'newTitle') //TODO - get title of video from array.
+  nextTrack()
   veto = 0
   console.log('VETO count reset to 0')
 }
+
+//advances plays the next video in playlist
+function nextTrack() {
+  playhead = playhead + 1
+  if ((!playhead < trackList.length)){
+    console.log('End of playlist')
+  }
+  io.emit('vidId change', trackList[playhead])
+  youTube.getById(trackList[playhead], function(error, result){
+    if (error) {
+      console.log(error)
+    } else {
+      if(trackList[playhead]){
+        console.log(JSON.stringify((result.items[0].snippet.title)))
+        io.emit('title change', JSON.stringify((result.items[0].snippet.title)))
+      } else {
+        io.emit('title change', 'Add more to Playlist')
+      }
+      
+    }
+  })
+ 
+
+}
+

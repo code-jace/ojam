@@ -25,6 +25,7 @@ export default class InfoClient extends React.Component {
 
   receivedTitle (msg) {
     this.setState({title: msg})
+    console.log('new title: '+msg)
   }
     
   render () {
