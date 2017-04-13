@@ -7,7 +7,7 @@ var ip = require("ip")
 var localIp = ip.address()
 
 //for managing the array of videos
-var trackList = [] //stored as youtube video id strings
+var trackList = ['Aw3fN3OPk3A','SNE2oCZH_4k', '9imCm6CrNZ8', '52Gg9CqhbP8', 'PZbkF-15ObM'] //stored as youtube video id strings
 var playhead = 0
 
 var veto = 0
@@ -61,6 +61,17 @@ http.listen(3000, function () {
 function vetoPassed() {
   console.log('stop current video') //TODO
   console.log('load and play next video')//TODO
+  playhead = playhead + 1
+
+  if (!(playhead<trackList.length)){
+    playhead = 0
+  }
+  console.log('Playhead: ' + playhead)
+  console.log('TrackList Length: ' + trackList.length)
+  
+  io.emit('vidId change', trackList[playhead])
+
+  console.log('EMIT new VIDID: '+trackList[playhead])
   console.log('update title')//TODO
   io.emit('title change', 'newTitle') //TODO - get title of video from array.
   veto = 0
