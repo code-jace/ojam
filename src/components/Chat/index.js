@@ -2,6 +2,7 @@ import React from 'react'
 import io from 'socket.io-client'
 import './style.scss'
 
+
 export default class Chat extends React.Component {
   constructor () {
     super(...arguments)
@@ -16,6 +17,8 @@ export default class Chat extends React.Component {
       chatMessages: []
     }
   }
+
+
   receivedMessage (msg) {
     this.setState(function (prev) {
       prev.chatMessages.push(msg)
@@ -29,6 +32,8 @@ export default class Chat extends React.Component {
     this.socket.emit('chat message', this.chatInput.value)
     this.chatInput.value = ''
   }
+
+  
   render () {
     console.log(this.state)
     return (
