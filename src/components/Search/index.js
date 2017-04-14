@@ -22,10 +22,11 @@ export default class Search extends React.Component {
 
 sendTrack(event){
   event.preventDefault()
-  this.socket.emit('add track', this.idInput.value)
-  console.log('Sending ID: '+this.idInput.value)
-  this.idInput.value = ''
-}
+
+    this.socket.emit('add track', this.idInput.value)
+    console.log('Sending ID: '+this.idInput.value)
+    this.idInput.value = ''
+  }
 
   render () {
     var that = this

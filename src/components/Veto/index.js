@@ -6,28 +6,38 @@ export default class Veto extends React.Component {
   constructor () {
     super()
 
+    var iAmVeto = true
+
     this.socket = io()
     this.socket.on('connect', function () {
-      console.log('connected to server')
-      this.socket.emit('veto connected')
+      console.log('connected to server')      
+    })
+
+    this.socket.on('vidId change', function(){
+        this.reloadVeto()
     })
 
     this.state = {
-      clicked: 0
+      vetoed: false
     }
 
-        
+    
   }
 
+  reloadVeto(){
+    this.setState({vetoed: false})
+        console.log('reload veto')
+  }
 
 
   render () {
     var that = this
     return <div className='veto'>
       
-      <input type='button' onClick={function () {
+      <input type='button' disabled={this.state.vetoed} onClick={function () {
         that.socket.emit('veto vote')
-      }} value='veto' />
+        //that.setState({vetoed: true})
+      }} value='VETO!!' />
     </div>
   }
 }

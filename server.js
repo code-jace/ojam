@@ -12,7 +12,7 @@ youTube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU') // ojam project key fo
 var localIp = ip.address()
 
 //for managing the array of videos :: array will be user propagated
-var trackList = [] //['Aw3fN3OPk3A','SNE2oCZH_4k', '9imCm6CrNZ8', '52Gg9CqhbP8', 'PZbkF-15ObM'] //stored as youtube video id strings
+var trackList = ['Aw3fN3OPk3A','SNE2oCZH_4k', '9imCm6CrNZ8', '52Gg9CqhbP8', 'PZbkF-15ObM'] //stored as youtube video id strings
 var playhead = 0
 var trackListEnd = true
 
@@ -20,9 +20,14 @@ var veto = 0
 var connectedUsers = 0
 
 
+
 app.use(express.static('output'))
 
 io.on('connection', (socket) => {
+
+  connectedUsers = connectedUsers + 0.2
+  console.log('a user has connected')
+  console.log('Connected Users: ' + connectedUsers)
   
 
   socket.on('chat message', function (msg) {
@@ -30,12 +35,6 @@ io.on('connection', (socket) => {
     io.emit('chat message', msg)
   })
 
-  //User count is now based on veto component - veto is for voting, this is fair.
-  socket.on('veto connected', function(){
-  connectedUsers ++
-  console.log('a user has connected')
-  console.log('Connected Users: ' + connectedUsers)
-  })
 
 
 //when a user votes TODO: limit each user to 1 vote per track
@@ -74,7 +73,7 @@ io.on('connection', (socket) => {
   })
 
    socket.on('disconnect', function() {
-    connectedUsers --
+    connectedUsers = connectedUsers - 0.2
     console.log('a user has disconnected')
     console.log('Connected USERS: ' + connectedUsers)
   })
@@ -107,21 +106,11 @@ function nextTrack() {
     console.log('Playhead: '+playhead)
   } 
   
- 
-
-}
+ }
 
 function sendTrack(id) {
-  youTube.getById(trackList[playhead], function(error, result){
-    if (error) {
-      console.log(error)
-    } else {
-        io.emit('vidId change', trackList[playhead])
-        console.log(JSON.stringify((result.items[0].snippet.title)))
-        io.emit('title change', JSON.stringify((result.items[0].snippet.title)))
-
-      }      
-    })
+  io.emit('vidId change', id)
+  sendTitle(id)
 }
 
 function addTrack(id) {
@@ -130,6 +119,18 @@ function addTrack(id) {
   
   if (trackListEnd){
     trackListEnd = false
-    sendTrack()
+    sendTrack(trackList[playhead])
   }
+}
+
+function sendTitle(id){
+  youTube.getById(id, function(error, result){
+    if (error) {
+      console.log(error)
+    } else {
+        console.log(JSON.stringify((result.items[0].snippet.title)))
+        io.emit('title change', JSON.stringify((result.items[0].snippet.title)))
+
+      }      
+    })
 }

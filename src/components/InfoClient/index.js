@@ -11,6 +11,8 @@ export default class InfoClient extends React.Component {
       console.log('connected to server')
     })
 
+    this.socket.emit('title request')
+
     this.socket.on('title change', this.receivedTitle.bind(this))
   
     this.state = 
