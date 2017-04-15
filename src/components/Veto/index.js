@@ -1,6 +1,7 @@
 import React from 'react'
 import './style.scss'
 import io from 'socket.io-client'
+import {Button} from 'react-bootstrap'
 
 export default class Veto extends React.Component {
   constructor () {
@@ -13,8 +14,9 @@ export default class Veto extends React.Component {
       console.log('connected to server')      
     })
 
-    this.socket.on('vidId change', function(){
-        this.reloadVeto()
+    this.socket.on('vidId change', () =>{
+      this.setState({vetoed: false})
+      console.log('VETO RELOADED ')
     })
 
     this.state = {
@@ -24,20 +26,19 @@ export default class Veto extends React.Component {
     
   }
 
-  reloadVeto(){
-    this.setState({vetoed: false})
-        console.log('reload veto')
-  }
+
 
 
   render () {
     var that = this
     return <div className='veto'>
       
-      <input type='button' disabled={this.state.vetoed} onClick={function () {
+      
+      <Button bsStyle="danger" bsSize="large" disabled={this.state.vetoed} onClick={function(){
         that.socket.emit('veto vote')
-        //that.setState({vetoed: true})
-      }} value='VETO!!' />
+        that.setState({vetoed: true})
+      }
+        }>VETO!!</Button>
     </div>
   }
 }

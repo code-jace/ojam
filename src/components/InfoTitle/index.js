@@ -2,7 +2,9 @@ import React from 'react'
 import './style.scss'
 import io from 'socket.io-client'
 
-export default class InfoClient extends React.Component {
+import {} from 'react-bootstrap'
+
+export default class InfoTitle extends React.Component {
   constructor () {
     super(...arguments)
 
@@ -14,12 +16,13 @@ export default class InfoClient extends React.Component {
     this.socket.emit('title request')
 
     this.socket.on('title change', this.receivedTitle.bind(this))
-  
+
+
+
     this.state = 
     {
       title: 'Add a Track!',
-      runtime: 10,
-      playtime: 5
+
     }
 
         
@@ -29,17 +32,18 @@ export default class InfoClient extends React.Component {
     this.setState({title: msg})
     console.log('new title: '+msg)
   }
+
+
+
+
     
   render () {
     var that = this
-    var runtime = this.state.runtime
-    var playtime = this.state.playtime
-    return <div className='info-client'>
-      <h2>InfoClient</h2>
-      <h3>Currently Playing</h3>
+
+    return <div className='info-title'>
+
       <h2>{this.state.title}</h2>
-      <br/>
-      <h3>Progress = {playtime/runtime}</h3>
+
       
       
     </div>

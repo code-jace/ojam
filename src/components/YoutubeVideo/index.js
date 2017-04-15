@@ -22,7 +22,8 @@ export default class YoutubeVideo extends React.Component {
     
 
     this.state = {
-      vidId: ''       
+      vidId: '',  
+      vidDuration: 0     
     }    
     
   }
@@ -40,6 +41,13 @@ export default class YoutubeVideo extends React.Component {
     console.log('VIDEO END!!')
     this.socket.emit('video ended')
   }
+
+  reportProgress(pro){
+    console.log(this.state.vidDuration)
+    console.log(this.state.vidDuration*pro.played)
+    this.socket.emit('progress', this.state.vidDuration, pro.played)
+
+  }
   
   
 
@@ -51,7 +59,9 @@ export default class YoutubeVideo extends React.Component {
     
     return <div className='youtube-video'>
         <h2>YoutubeVideo</h2>
-        <ReactPlayer url={ vidUrl } playing onEnded={() => this.videoEnded()}/>
+        <ReactPlayer url={ vidUrl } playing onEnded={() => this.videoEnded()}
+          onDuration={(duration) => this.setState({vidDuration: duration})}
+          onProgress={(progress) => this.reportProgress(progress)}/>
     </div>
   }
 

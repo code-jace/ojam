@@ -12,7 +12,7 @@ youTube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU') // ojam project key fo
 var localIp = ip.address()
 
 //for managing the array of videos :: array will be user propagated
-var trackList = ['Aw3fN3OPk3A','SNE2oCZH_4k', '9imCm6CrNZ8', '52Gg9CqhbP8', 'PZbkF-15ObM'] //stored as youtube video id strings
+var trackList = [] //['Aw3fN3OPk3A','SNE2oCZH_4k', '9imCm6CrNZ8', '52Gg9CqhbP8', 'PZbkF-15ObM'] //stored as youtube video id strings
 var playhead = 0
 var trackListEnd = true
 
@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
   */
   
   socket.on('video ready', function(){
-    console.log('PLAYER READY!! sending track!')
+    console.log('PLAYER READY!!')
     //sendTrack(trackList[playhead])
   })
 
@@ -72,11 +72,24 @@ io.on('connection', (socket) => {
     addTrack(id)
   })
 
+  socket.on('progress', function (duration, progress){
+    //console.log(progress)
+    //console.log('Current track progress: ' + progress*duration + '/' + duration)
+    var progressPercent = (progress*100)
+    console.log('sending '+progressPercent)
+    io.emit('progress update', progressPercent)
+    if(trackList[playhead]){
+      sendTitle(trackList[playhead])
+    }
+  })
+
    socket.on('disconnect', function() {
     connectedUsers = connectedUsers - 0.2
     console.log('a user has disconnected')
     console.log('Connected USERS: ' + connectedUsers)
   })
+
+
 })
 
 
@@ -134,3 +147,4 @@ function sendTitle(id){
       }      
     })
 }
+

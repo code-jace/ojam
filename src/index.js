@@ -8,6 +8,8 @@ import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
 
 import './index.scss'
 
+import { Button } from 'react-bootstrap'
+
 const rootEl = document.getElementById('app')
 const render = Component =>
   ReactDom.render(
