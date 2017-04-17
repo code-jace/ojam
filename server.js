@@ -5,9 +5,14 @@ var io = require('socket.io')(http)
 var ip = require('ip')
 
 //YouTube stuff for data lookups
+/*
 var YouTube = require('youtube-node')
 var youTube = new YouTube()
-youTube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU') // ojam project key for YouTube searches. NOT FOR LARGE SCALE DEPLOYMENT
+youTube.setKey('AIzaSyAI1avDkXCAVOlv0JqEi_0PjVZUFz7ef1I') // ojam project key for YouTube searches. NOT FOR LARGE SCALE DEPLOYMENT
+*/
+
+var fetchVideoInfo = require('youtube-info') //No need for API Key?!!
+
 
 var localIp = ip.address()
 
@@ -95,7 +100,6 @@ io.on('connection', (socket) => {
 
 
 http.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
   console.log('Operating on http://'+localIp+':3000!!')
 })
 
@@ -137,12 +141,12 @@ function addTrack(id) {
 }
 
 function sendTitle(id){
-  youTube.getById(id, function(error, result){
+  fetchVideoInfo(id, function(error, result){
     if (error) {
       console.log(error)
     } else {
-        console.log(JSON.stringify((result.items[0].snippet.title)))
-        io.emit('title change', JSON.stringify((result.items[0].snippet.title)))
+        console.log(result.title)
+        io.emit('title change', result.title)
 
       }      
     })
