@@ -8,7 +8,7 @@
     "dev": "concurrently --kill-others \"npm run dev:server\" \"npm run dev:frontend\"",
     "dev:frontend": "webpack-dev-server --colors --config ./webpack.conf.js",
     "dev:server": "nodemon --watch ./index.js --watch ./lib --exec \"node ./server.js\"",
-    "build": "NODE_ENV=production webpack -p --config ./webpack.conf.js",
+    "build": "SET NODE_ENV=production & webpack -p --config ./webpack.conf.js",
     "serve": "node ./server.js"
   },
   "author": "Oisin Hennessy",

@@ -78,7 +78,7 @@ io.on('connection', (socket) => {
     var progressPercent = (progress*100)
     console.log('sending '+progressPercent)
     io.emit('progress update', progressPercent)
-    if(trackList[playhead]){
+    if(trackList[playhead] && trackListEnd){
       sendTitle(trackList[playhead])
     }
   })
