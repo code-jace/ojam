@@ -7,6 +7,7 @@ import InfoProgressBar from './components/InfoProgressBar'
 import YoutubeVideo from './components/YoutubeVideo'
 import Search from './components/Search'
 import Veto from './components/Veto'
+import List from './components/List'
 
 import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss'
 import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
@@ -24,6 +25,7 @@ export default class Application extends React.Component {
       <YoutubeVideo />
       <Veto />
       <Search />
+      <List />
       <Chat />
       <p>
         

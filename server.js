@@ -30,10 +30,9 @@ app.use(express.static('output'))
 
 io.on('connection', (socket) => {
 
-  connectedUsers = connectedUsers + 0.2
   console.log('a user has connected')
+  userCount()
   console.log('Connected Users: ' + connectedUsers)
-  
 
   socket.on('chat message', function (msg) {
     console.log('emitting CHAT:', msg)
@@ -89,7 +88,7 @@ io.on('connection', (socket) => {
   })
 
    socket.on('disconnect', function() {
-    connectedUsers = connectedUsers - 0.2
+    userCount()
     console.log('a user has disconnected')
     console.log('Connected USERS: ' + connectedUsers)
   })
@@ -132,6 +131,7 @@ function sendTrack(id) {
 
 function addTrack(id) {
   trackList.push(id)
+  
   console.log('Play Head: ' + playhead + '||TrackList: ' + trackList)
   
   if (trackListEnd){
@@ -152,3 +152,6 @@ function sendTitle(id){
     })
 }
 
+function userCount(){
+  connectedUsers = Math.ceil(Object.keys(io.sockets.sockets).length / 7) //divide by number of connections per user
+}

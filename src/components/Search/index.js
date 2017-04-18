@@ -2,6 +2,8 @@ import React from 'react'
 import './style.scss'
 import io from 'socket.io-client'
 
+import {Table, Button} from 'react-bootstrap'
+
 export default class Search extends React.Component {
   constructor () {
     super()
@@ -14,7 +16,7 @@ export default class Search extends React.Component {
     })
 
       this.state = {
-      
+      playlist: ''
     }
 
     
@@ -30,6 +32,9 @@ sendTrack(event){
 
   render () {
     var that = this
+
+
+
     return <div className='search'>
         <h2>Search</h2>
         <form onSubmit={that.sendTrack.bind(this)}>
@@ -37,6 +42,8 @@ sendTrack(event){
           <input type='text' ref={(input) => { this.idInput = input }} />
           <input type='submit' value='Submit' />
         </form>
+
+        
       
     </div>
   }
