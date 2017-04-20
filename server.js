@@ -87,6 +87,19 @@ io.on('connection', (socket) => {
     }
   })
 
+  socket.on('click play', function(socket){
+    io.emit('play')
+  })
+
+  socket.on('click pause', function(){
+    io.emit('pause')
+  })
+
+  socket.on('click skip', function(){
+    nextTrack() 
+  })
+
+
    socket.on('disconnect', function() {
     userCount()
     console.log('a user has disconnected')
@@ -105,12 +118,13 @@ http.listen(3000, function () {
 //triggered when a veto is passed
 function vetoPassed() {
   nextTrack()
-  veto = 0
+  //veto = 0
   console.log('VETO count reset to 0')
 }
 
 //advances plays the next video in playlist
 function nextTrack() {
+  veto = 0
   playhead = playhead + 1
   if (trackList[playhead]){
     sendTrack(trackList[playhead])
@@ -153,5 +167,11 @@ function sendTitle(id){
 }
 
 function userCount(){
-  connectedUsers = Math.ceil(Object.keys(io.sockets.sockets).length / 7) //divide by number of connections per user
+  connectedUsers = Math.ceil(Object.keys(io.sockets.sockets).length / 8) //divide by number of connections per user
+}
+
+function sendTrackList(){
+  //create list to send
+
+  //send list
 }

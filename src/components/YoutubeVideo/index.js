@@ -3,6 +3,8 @@ import ReactPlayer from 'react-player'
 import io from 'socket.io-client'
 import './style.scss'
 
+import {Button, ButtonGroup} from 'react-bootstrap'
+
 
 export default class YoutubeVideo extends React.Component {
   constructor () {
@@ -19,11 +21,24 @@ export default class YoutubeVideo extends React.Component {
    
     this.socket.on('vidId change', this.recievedVidId.bind(this))
 
+    this.socket.on('play', () => {
+      this.setState({playing: true})
+    })
+
+    this.socket.on('pause', () => {
+      this.setState({playing: false})
+    })
+
+    this.socket.on('skip', () => {
+
+    })
+
     
 
     this.state = {
       vidId: '',  
-      vidDuration: 0     
+      vidDuration: 0,
+      playing: true  
     }    
     
   }
@@ -35,7 +50,20 @@ export default class YoutubeVideo extends React.Component {
     })
   }
 
-  
+  clickPlay() {
+    this.socket.emit('click play')
+    console.log('send play')
+  }
+
+  clickPause() {
+    this.socket.emit('click pause')
+    console.log('send pause')
+  }  
+
+  clickSkip() {
+    this.socket.emit('click skip')
+    console.log('send skip')
+  }
 
   videoEnded() {
     console.log('VIDEO END!!')
@@ -59,9 +87,11 @@ export default class YoutubeVideo extends React.Component {
     
     return <div className='youtube-video'>
         <h2>YoutubeVideo</h2>
-        <ReactPlayer url={ vidUrl } playing onEnded={() => this.videoEnded()}
+        <ReactPlayer url={ vidUrl } playing={that.state.playing} onEnded={() => this.videoEnded()}
           onDuration={(duration) => this.setState({vidDuration: duration})}
           onProgress={(progress) => this.reportProgress(progress)}/>
+
+          
     </div>
   }
 

@@ -16,7 +16,14 @@ export default class List extends React.Component {
     })
 
     this.state = {
-      list: []
+      list: [{
+        title: 'TITLE',
+        url: 'testURL'
+      },
+      {
+        title: 'TITLE2',
+        url: 'testURL2'
+      }]
     }
 
     this.socket.on('send list', (LIST) => {
@@ -34,20 +41,30 @@ export default class List extends React.Component {
 
     var that = this
 
-    var PLAYLIST = that.state.list
+    var data = this.state.list
+
 
 
     return <div className='list'>
-      <Table responsive>
+      <Table responsive bordered striped>
           <thead>
             <tr>
+              <th className='col-sm-2'>Thumbnail</th>
               <th className='col-sm-8'>Title</th>
-              <th className='col-sm-2'>Uploader</th>
-              <th className='col-sm-2'>Options</th>
+              <th className='col-sm-2'>Remove</th>
             </tr>
           </thead>
         <tbody>
-          
+          {data.map(d => {
+            return(<tr>
+              <td><img src={d.url}/></td>
+              <td>{d.title}</td>
+              <td><Button>Remove</Button></td>
+              </tr>)
+          })}
+
+
+          <td></td>
         </tbody>
       </Table>
 

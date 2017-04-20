@@ -5,6 +5,7 @@ import Chat from './components/Chat'
 import InfoTitle from './components/InfoTitle'
 import InfoProgressBar from './components/InfoProgressBar'
 import YoutubeVideo from './components/YoutubeVideo'
+import Controls from './components/Controls'
 import Search from './components/Search'
 import Veto from './components/Veto'
 import List from './components/List'
@@ -23,6 +24,7 @@ export default class Application extends React.Component {
       <InfoTitle />
       <InfoProgressBar />
       <YoutubeVideo />
+      <Controls />
       <Veto />
       <Search />
       <List />
