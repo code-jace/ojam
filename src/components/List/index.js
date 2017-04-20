@@ -16,25 +16,25 @@ export default class List extends React.Component {
     })
 
     this.state = {
-      list: [{
-        title: 'TITLE',
-        url: 'testURL'
-      },
-      {
-        title: 'TITLE2',
-        url: 'testURL2'
-      }]
+      list: []
     }
 
-    this.socket.on('send list', (LIST) => {
-    this.setState({list: LIST})
-    console.log(LIST)
-    console.log(this.state.list)
-  })
+    this.socket.emit('request list')
+
+    this.socket.on('send list', this.recievedList.bind(this))
 
     
   }
 
+  recievedList(msg){
+    this.setState({list: msg})
+  }
+
+
+
+  removeClicked(id){
+    this.socket.emit('remove track', id)
+  }
   
 
   render () {
@@ -56,10 +56,10 @@ export default class List extends React.Component {
           </thead>
         <tbody>
           {data.map(d => {
-            return(<tr>
-              <td><img src={d.url}/></td>
+            return(<tr key={d.id}>
+              <td><img src={d.thumb} width='192' height ='108' /></td>
               <td>{d.title}</td>
-              <td><Button>Remove</Button></td>
+              <td><Button ></Button></td>
               </tr>)
           })}
 

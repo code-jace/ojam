@@ -28,9 +28,9 @@ export default class InfoProgressBar extends React.Component {
 
 
   recievedProgress (pro) {
-    console.log('recieved: '+pro)
+    //console.log('recieved: '+pro)
     this.setState({progressPercent: pro})
-    console.log(this.state.progressPercent)
+    //console.log(this.state.progressPercent)
   }
 
 

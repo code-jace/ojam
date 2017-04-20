@@ -74,6 +74,7 @@ io.on('connection', (socket) => {
   socket.on('add track', function(id){
     console.log('ID recieved: ' + id)
     addTrack(id)
+    sendTrackList()
   })
 
   socket.on('progress', function (duration, progress){
@@ -87,7 +88,7 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('click play', function(socket){
+  socket.on('click play', function(){
     io.emit('play')
   })
 
@@ -97,6 +98,18 @@ io.on('connection', (socket) => {
 
   socket.on('click skip', function(){
     nextTrack() 
+  })
+
+  socket.on('request list', function(){
+    sendTrackList()
+  })
+
+  socket.on('remove track', function(id){
+    var target = trackList.indexOf(id)
+    if (target > -1){
+      trackList.splice(target, 1)
+      sendTrackList()
+    }
   })
 
 
@@ -118,6 +131,7 @@ http.listen(3000, function () {
 //triggered when a veto is passed
 function vetoPassed() {
   nextTrack()
+  sendTrackList()
   //veto = 0
   console.log('VETO count reset to 0')
 }
@@ -126,6 +140,7 @@ function vetoPassed() {
 function nextTrack() {
   veto = 0
   playhead = playhead + 1
+  sendTrackList()
   if (trackList[playhead]){
     sendTrack(trackList[playhead])
   } else {
@@ -152,6 +167,7 @@ function addTrack(id) {
     trackListEnd = false
     sendTrack(trackList[playhead])
   }
+  sendTrackList()
 }
 
 function sendTitle(id){
@@ -172,6 +188,21 @@ function userCount(){
 
 function sendTrackList(){
   //create list to send
-
-  //send list
+  var sendList = []
+  for(i=playhead; i < trackList.length; i++){
+    
+    fetchVideoInfo(trackList[i], function(error, result){
+      if(error){
+        console.logError
+      } else {
+        var deets = {'id': result.videoId, 'thumb': result.thumbnailUrl, 'title': result.title}
+        console.log(deets)
+        sendList.push(deets)
+        console.log(sendList)
+        io.emit('send list', sendList)
+      }
+    })
+  }
+  
 }
+

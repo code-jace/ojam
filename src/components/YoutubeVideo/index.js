@@ -71,8 +71,8 @@ export default class YoutubeVideo extends React.Component {
   }
 
   reportProgress(pro){
-    console.log(this.state.vidDuration)
-    console.log(this.state.vidDuration*pro.played)
+    //console.log(this.state.vidDuration)
+    //console.log(this.state.vidDuration*pro.played)
     this.socket.emit('progress', this.state.vidDuration, pro.played)
 
   }

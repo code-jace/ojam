@@ -30,7 +30,7 @@ export default class InfoTitle extends React.Component {
 
   receivedTitle (msg) {
     this.setState({title: msg})
-    console.log('new title: '+msg)
+    //console.log('new title: '+msg)
   }
 
 
