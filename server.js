@@ -104,11 +104,20 @@ io.on('connection', (socket) => {
     sendTrackList()
   })
 
-  socket.on('remove track', function(id){
-    var target = trackList.indexOf(id)
-    if (target > -1){
-      trackList.splice(target, 1)
-      sendTrackList()
+  socket.on('remove track', function(targetId){
+    console.log('remove: '+targetId)
+    var index = -1;
+    for(var i = playhead; i < trackList.length; i++) {
+      if (trackList[i].id === targetId) {
+          index = i
+          console.log('found at '+index)
+          break
+      }
+    }
+    if (index > -1){
+        console.log('removing '+trackList[index].title)
+        trackList.splice(index, 1)
+        sendTrackList()
     }
   })
 
@@ -142,7 +151,7 @@ function nextTrack() {
   playhead = playhead + 1
   sendTrackList()
   if (trackList[playhead]){
-    sendTrack(trackList[playhead])
+    sendTrack(trackList[playhead].id)
   } else {
     trackListEnd = true
     console.log('End of playlist')
@@ -159,27 +168,31 @@ function sendTrack(id) {
 }
 
 function addTrack(id) {
-  trackList.push(id)
-  
-  console.log('Play Head: ' + playhead + '||TrackList: ' + trackList)
+  fetchVideoInfo(id, function(error, result){
+    if (error) {console.log(error)}
+
+    console.log(result.videoId)
+    console.log(result.thumbnailUrl)
+    console.log(result.title)
+
+    trackList.push({'id': result.videoId, 'thumb': result.thumbnailUrl, 'title': result.title})
+    console.log(result.title+' added to playlist!')
+
+     console.log('Play Head: ' + playhead + '||TrackList: ' + trackList)
   
   if (trackListEnd){
     trackListEnd = false
-    sendTrack(trackList[playhead])
+    var tra = trackList[playhead]
+    sendTrack(trackList[playhead].id)
   }
   sendTrackList()
+  })
+    
+ 
 }
 
-function sendTitle(id){
-  fetchVideoInfo(id, function(error, result){
-    if (error) {
-      console.log(error)
-    } else {
-        console.log(result.title)
-        io.emit('title change', result.title)
-
-      }      
-    })
+function sendTitle(){
+  io.emit('title change', trackList[playhead].title)
 }
 
 function userCount(){
@@ -190,19 +203,8 @@ function sendTrackList(){
   //create list to send
   var sendList = []
   for(i=playhead; i < trackList.length; i++){
-    
-    fetchVideoInfo(trackList[i], function(error, result){
-      if(error){
-        console.logError
-      } else {
-        var deets = {'id': result.videoId, 'thumb': result.thumbnailUrl, 'title': result.title}
-        console.log(deets)
-        sendList.push(deets)
-        console.log(sendList)
-        io.emit('send list', sendList)
-      }
-    })
+    sendList.push(trackList[i])
   }
-  
+  io.emit('send list', sendList)
 }
 

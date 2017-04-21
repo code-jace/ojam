@@ -33,6 +33,7 @@ export default class List extends React.Component {
 
 
   removeClicked(id){
+    console.log('remove '+id)
     this.socket.emit('remove track', id)
   }
   
@@ -59,7 +60,7 @@ export default class List extends React.Component {
             return(<tr key={d.id}>
               <td><img src={d.thumb} width='192' height ='108' /></td>
               <td>{d.title}</td>
-              <td><Button ></Button></td>
+              <td><Button onClick={()=>this.removeClicked(d.id)}>Remove</Button></td>
               </tr>)
           })}
 
