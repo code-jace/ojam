@@ -47,6 +47,7 @@ export default class List extends React.Component {
 
 
     return <div className='list'>
+      <h3>Current Playlist</h3>
       <Table responsive bordered striped>
           <thead>
             <tr>
@@ -56,11 +57,11 @@ export default class List extends React.Component {
             </tr>
           </thead>
         <tbody>
-          {data.map(d => {
-            return(<tr key={d.id}>
-              <td><img src={d.thumb} width='192' height ='108' /></td>
-              <td>{d.title}</td>
-              <td><Button onClick={()=>this.removeClicked(d.id)}>Remove</Button></td>
+          {data.map((d, index) => {
+            return(<tr key={index}>
+              <td><img src={d.thumb} width='120' height ='68' /></td>
+              <td><h4>{d.title}</h4></td>
+              <td><Button bsStyle='danger' onClick={()=>this.removeClicked(d.id)}>Remove</Button></td>
               </tr>)
           })}
 

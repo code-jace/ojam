@@ -4,6 +4,15 @@ var http = require('http').Server(app)
 var io = require('socket.io')(http)
 var ip = require('ip')
 
+
+var YTsearch =require('youtube-search')
+var opts = { //these control the search function.
+  maxResults: 10,
+  key: 'AIzaSyAI1avDkXCAVOlv0JqEi_0PjVZUFz7ef1I', //api key to query youtube data
+  type: 'video', //only search videos
+
+}
+
 //YouTube stuff for data lookups
 /*
 var YouTube = require('youtube-node')
@@ -30,8 +39,9 @@ app.use(express.static('output'))
 
 io.on('connection', (socket) => {
 
-  console.log('a user has connected')
+  //console.log('a user has connected')
   userCount()
+  sendInfo()
   console.log('Connected Users: ' + connectedUsers)
 
   socket.on('chat message', function (msg) {
@@ -43,7 +53,8 @@ io.on('connection', (socket) => {
 
 //when a user votes TODO: limit each user to 1 vote per track
   socket.on('veto vote', function (msg) {
-    veto ++    
+    veto ++  
+    sendInfo()  
     console.log('VETO +1')
     if (veto >= (connectedUsers/2)){
       console.log('VETO passed with ' + veto + 'votes!')
@@ -72,7 +83,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('add track', function(id){
-    console.log('ID recieved: ' + id)
+    //console.log('ID recieved: ' + id)
     addTrack(id)
     sendTrackList()
   })
@@ -81,7 +92,7 @@ io.on('connection', (socket) => {
     //console.log(progress)
     //console.log('Current track progress: ' + progress*duration + '/' + duration)
     var progressPercent = (progress*100)
-    console.log('sending '+progressPercent)
+    //console.log('sending '+progressPercent)
     io.emit('progress update', progressPercent)
     if(trackList[playhead] && trackListEnd){
       sendTitle(trackList[playhead])
@@ -104,6 +115,10 @@ io.on('connection', (socket) => {
     sendTrackList()
   })
 
+  socket.on('info request', function(){
+    sendInfo()
+  })
+
   socket.on('remove track', function(targetId){
     console.log('remove: '+targetId)
     var index = -1;
@@ -114,17 +129,42 @@ io.on('connection', (socket) => {
           break
       }
     }
+
     if (index > -1){
+
+        if(index===playhead){
+
+        console.log('removing '+trackList[index].title)
+        trackList.splice(index, 1)
+        sendTrack(trackList[playhead].id)
+        sendTrackList()
+
+        } else {
+
         console.log('removing '+trackList[index].title)
         trackList.splice(index, 1)
         sendTrackList()
+        }        
     }
   })
+
+  socket.on('video lookup', function(target){
+    console.log(target)
+    YTsearch(target, opts, function(err, results) {
+      if(err) return console.log(err)
+      //console.log(target)
+      //console.log(results)
+      socket.emit('search result', results)
+    });
+
+  })
+
 
 
    socket.on('disconnect', function() {
     userCount()
-    console.log('a user has disconnected')
+    sendInfo()
+    //console.log('a user has disconnected')
     console.log('Connected USERS: ' + connectedUsers)
   })
 
@@ -139,10 +179,11 @@ http.listen(3000, function () {
 
 //triggered when a veto is passed
 function vetoPassed() {
+  sendInfo()
   nextTrack()
   sendTrackList()
   //veto = 0
-  console.log('VETO count reset to 0')
+  //console.log('VETO count reset to 0')
 }
 
 //advances plays the next video in playlist
@@ -157,7 +198,7 @@ function nextTrack() {
     console.log('End of playlist')
     io.emit('title change', 'Add to Playlist PLS!!')
     //playhead = playhead - 1
-    console.log('Playhead: '+playhead)
+    //console.log('Playhead: '+playhead)
   } 
   
  }
@@ -171,17 +212,18 @@ function addTrack(id) {
   fetchVideoInfo(id, function(error, result){
     if (error) {console.log(error)}
 
-    console.log(result.videoId)
-    console.log(result.thumbnailUrl)
-    console.log(result.title)
+    //console.log(result.videoId)
+    //console.log(result.thumbnailUrl)
+    //console.log(result.title)
 
     trackList.push({'id': result.videoId, 'thumb': result.thumbnailUrl, 'title': result.title})
     console.log(result.title+' added to playlist!')
 
-     console.log('Play Head: ' + playhead + '||TrackList: ' + trackList)
+    //console.log('Play Head: ' + playhead + '||TrackList: ' + trackList)
   
   if (trackListEnd){
     trackListEnd = false
+
     var tra = trackList[playhead]
     sendTrack(trackList[playhead].id)
   }
@@ -208,3 +250,7 @@ function sendTrackList(){
   io.emit('send list', sendList)
 }
 
+function sendInfo(){
+  userCount()
+  io.emit('info change', connectedUsers, veto)
+}

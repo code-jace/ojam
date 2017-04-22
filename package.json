@@ -1,6 +1,6 @@
 {
   "name": "ojam",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -42,7 +42,8 @@
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.2.0",
     "write-file-webpack-plugin": "^3.4.2",
-    "youtube-info": "^1.1.1"
+    "youtube-info": "^1.1.1",
+    "youtube-search": "^1.0.9"
   },
   "dependencies": {
     "express": "^4.15.2",

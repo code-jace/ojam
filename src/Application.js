@@ -9,6 +9,7 @@ import Controls from './components/Controls'
 import Search from './components/Search'
 import Veto from './components/Veto'
 import List from './components/List'
+import InfoUsers from './components/InfoUsers'
 
 import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss'
 import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
@@ -28,7 +29,7 @@ export default class Application extends React.Component {
       <Veto />
       <Search />
       <List />
-      <Chat />
+      <InfoUsers />
       <p>
         
       </p>
