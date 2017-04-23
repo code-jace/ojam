@@ -34,7 +34,7 @@ export default class Veto extends React.Component {
     return <div className='veto'>
       
       
-      <Button bsStyle="danger" bsSize="large" disabled={this.state.vetoed} onClick={function(){
+      <Button block bsStyle="danger" bsSize="large" disabled={this.state.vetoed} onClick={function(){
         that.socket.emit('veto vote')
         that.setState({vetoed: true})
       }

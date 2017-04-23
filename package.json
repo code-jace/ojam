@@ -1,6 +1,6 @@
 {
   "name": "ojam",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "build": "SET NODE_ENV=production & webpack -p --config ./webpack.conf.js",
     "serve": "node ./server.js"
   },
-  "author": "Oisin Hennessy",
+  "author": "Oisín Hennessy",
   "license": "MIT",
   "devDependencies": {
     "babel": "^6.23.0",

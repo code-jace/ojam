@@ -76,6 +76,7 @@ sendTrack(event){
         <Button
           bsStyle="primary"
           bsSize="large"
+          block
           onClick={this.open.bind(this)}
         >
           Add to Playlist
