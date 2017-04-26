@@ -16,8 +16,6 @@ export default class YoutubeVideo extends React.Component {
       console.log('connected to server')
       
     })
-
-
     
 
     this.state = {

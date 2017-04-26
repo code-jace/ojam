@@ -26,9 +26,6 @@ export default class Veto extends React.Component {
     
   }
 
-
-
-
   render () {
     var that = this
     return <div className='veto'>

@@ -64,13 +64,9 @@ export default class List extends React.Component {
               <td><Button bsStyle='danger' onClick={()=>this.removeClicked(d.id)}>Remove</Button></td>
               </tr>)
           })}
-
-
           <td></td>
         </tbody>
-      </Table>
-
-      
+      </Table> 
     </div>
   }
 }

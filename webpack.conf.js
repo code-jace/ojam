@@ -9,7 +9,7 @@ var local_ip = ip.address()
 
 function augmentConfig (config) {
   if (process.env.NODE_ENV !== 'production') {
-    config.entry.app.unshift('webpack-dev-server/client?http://'+local_ip+':8088')
+    config.entry.app.unshift('webpack-dev-server/client?http://'+local_ip+':3000')
     config.entry.app.unshift('react-hot-loader/patch')
     config.entry.app.push('webpack/hot/only-dev-server')
     config.module.loaders[0].options = { plugins: ['react-hot-loader/babel'] }
@@ -17,10 +17,10 @@ function augmentConfig (config) {
       host: local_ip,
       inline: true,
       hot: true,
-      port: 8088,
+      port: 3000,
       headers: { 'Access-Control-Allow-Origin': '*' }
     }
-    config.output.publicPath = 'http://'+local_ip+':8088/'
+    config.output.publicPath = 'http://'+local_ip+':3000/'
     config.plugins.push(new WriteFilePlugin({log: false}))
 
     config.plugins.push(new webpack.HotModuleReplacementPlugin())

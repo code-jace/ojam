@@ -203,20 +203,11 @@ function sendTrack(id) {
 function addTrack(id) {
   fetchVideoInfo(id, function(error, result){
     if (error) {console.log(error)}
-
-    //console.log(result.videoId)
-    //console.log(result.thumbnailUrl)
-    //console.log(result.title)
-
     trackList.push({'id': result.videoId, 'thumb': result.thumbnailUrl, 'title': result.title})
-    console.log(result.title+' added to playlist!')
-
-    //console.log('Play Head: ' + playhead + '||TrackList: ' + trackList)
-  
+    console.log(result.title+' added to playlist!')  
   if (trackListEnd){
     trackListEnd = false
 
-    var tra = trackList[playhead]
     sendTrack(trackList[playhead].id)
   }
   sendTrackList() 
