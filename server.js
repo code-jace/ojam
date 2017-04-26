@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
 
 
 
-//when a user votes TODO: limit each user to 1 vote per track
+//when a user votes 
   socket.on('veto vote', function (msg) {
     veto ++  
     sendInfo()  
@@ -62,14 +62,6 @@ io.on('connection', (socket) => {
     }
 
   })
-
-//TODO: title info change command
-  /*
-    socket.on('title change', function (msg) {
-    console.log('emitting title:', msg)
-    io.emit('title change', msg)
-  })
-  */
   
   socket.on('video ready', function(){
     console.log('PLAYER READY!!')
@@ -227,7 +219,7 @@ function addTrack(id) {
     var tra = trackList[playhead]
     sendTrack(trackList[playhead].id)
   }
-  sendTrackList()
+  sendTrackList() 
   })
     
  
