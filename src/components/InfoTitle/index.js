@@ -10,6 +10,7 @@ export default class InfoTitle extends React.Component {
 
      this.socket = io()
     this.socket.on('connect', function () {
+      
       console.log('connected to server')
     })
 
@@ -28,9 +29,9 @@ export default class InfoTitle extends React.Component {
         
   }
 
-  receivedTitle (msg) {
-    this.setState({title: msg})
-    //console.log('new title: '+msg)
+  receivedTitle (tit) {
+    this.setState({title: tit})
+    console.log('new title: '+tit)
   }
 
 

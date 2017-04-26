@@ -128,7 +128,7 @@ io.on('connection', (socket) => {
 
         console.log('removing '+trackList[index].title)
         trackList.splice(index, 1)
-        sendTrack(trackList[playhead].id)
+        sendTrack(trackList[playhead].id, trackList[playhead].title)
         sendTrackList()
 
         } else {
@@ -149,6 +149,12 @@ io.on('connection', (socket) => {
       socket.emit('search result', results)
     });
 
+  })
+
+  socket.on('title request', function(){
+    if(!trackListEnd){
+      sendTitle()
+    }
   })
 
 
@@ -181,10 +187,11 @@ function vetoPassed() {
 //advances plays the next video in playlist
 function nextTrack() {
   veto = 0
+  sendInfo()
   playhead = playhead + 1
   sendTrackList()
   if (trackList[playhead]){
-    sendTrack(trackList[playhead].id)
+    sendTrack(trackList[playhead].id, trackList[playhead].title)
   } else {
     trackListEnd = true
     console.log('End of playlist')
@@ -195,9 +202,10 @@ function nextTrack() {
   
  }
 
-function sendTrack(id) {
+function sendTrack(id, tit) {
   io.emit('vidId change', id)
-  sendTitle(id)
+  console.log('title: ' + tit)
+  sendTitle(tit)
 }
 
 function addTrack(id) {
@@ -208,7 +216,7 @@ function addTrack(id) {
   if (trackListEnd){
     trackListEnd = false
 
-    sendTrack(trackList[playhead].id)
+    sendTrack(trackList[playhead].id, trackList[playhead].title)
   }
   sendTrackList() 
   })
@@ -216,8 +224,9 @@ function addTrack(id) {
  
 }
 
-function sendTitle(){
-  io.emit('title change', trackList[playhead].title)
+function sendTitle(title){
+  console.log('sending title: '+title)
+  io.emit('title change', title)
 }
 
 function userCount(){
