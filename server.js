@@ -74,9 +74,9 @@ io.on('connection', (socket) => {
     nextTrack()
   })
 
-  socket.on('add track', function(id){
+  socket.on('add track', function(id, tit, url){
     //console.log('ID recieved: ' + id)
-    addTrack(id)
+    addTrack(id, tit, url)
     sendTrackList()
   })
 
@@ -153,7 +153,7 @@ io.on('connection', (socket) => {
 
   socket.on('title request', function(){
     if(!trackListEnd){
-      sendTitle()
+      sendTitle(trackList[playhead].title)
     }
   })
 
@@ -190,7 +190,8 @@ function vetoPassed() {
 
 //advances plays the next video in playlist
 function nextTrack() {
-  veto = 0
+  if(!trackListEnd){
+    veto = 0
   sendInfo()
   playhead = playhead + 1
   sendTrackList()
@@ -203,6 +204,7 @@ function nextTrack() {
     //playhead = playhead - 1
     //console.log('Playhead: '+playhead)
   } 
+  }
   
  }
 
@@ -212,20 +214,17 @@ function sendTrack(id, tit) {
   sendTitle(tit)
 }
 
-function addTrack(id) {
-  fetchVideoInfo(id, function(error, result){
-    if (error) {console.log(error)}
-    trackList.push({'id': result.videoId, 'thumb': result.thumbnailUrl, 'title': result.title})
-    console.log(result.title+' added to playlist!')  
-  if (trackListEnd){
-    trackListEnd = false
-
-    sendTrack(trackList[playhead].id, trackList[playhead].title)
-  }
-  sendTrackList() 
-  })
+function addTrack(id, tit, url) {
+    trackList.push({'id': id, 'thumb': url, 'title': tit})
+    console.log(tit+' added to playlist!')  
     
- 
+    if (trackListEnd){
+      console.log('playlist was stopped, sending: '+trackList[playhead].title)
+      trackListEnd = false
+      sendTrack(trackList[playhead].id, trackList[playhead].title)
+    }
+  sendTrackList() 
+
 }
 
 function sendTitle(title){

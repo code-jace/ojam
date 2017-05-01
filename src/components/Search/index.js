@@ -39,9 +39,9 @@ sendTrack(event){
 
 
 
-  sendTrack(id){
-    this.socket.emit('add track', id)
-    console.log('Sending ID: '+id)
+  sendTrack(id, tit, url){
+    this.socket.emit('add track', id, tit, url)
+    console.log('Sending ID: '+id+' '+tit+' '+url)
     this.setState({searchResult: []}) //Empty list
   }
 
@@ -114,7 +114,7 @@ sendTrack(event){
                             <td><img src={d.thumbnails.default.url} width='120' height ='68' /></td>
                             <td>{d.title}</td>
                             <td>{d.channelTitle}</td>
-                            <td><Button bsStyle='success' onClick={()=>this.sendTrack(d.id)}>Add</Button></td>
+                            <td><Button bsStyle='success' onClick={()=>this.sendTrack(d.id, d.title, d.thumbnails.default.url)}>Add</Button></td>
                             </tr>)
                         })}
                       </tbody>
