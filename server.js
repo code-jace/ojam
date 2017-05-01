@@ -162,6 +162,10 @@ io.on('connection', (socket) => {
    socket.on('disconnect', function() {
     userCount()
     sendInfo()
+    if (veto >= (connectedUsers/2)){
+      console.log('VETO passed with ' + veto + 'votes!')
+      vetoPassed()
+    }
     //console.log('a user has disconnected')
     console.log('Connected USERS: ' + connectedUsers)
   })

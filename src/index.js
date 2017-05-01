@@ -26,3 +26,14 @@ if (module.hot) {
     render(next)
   })
 }
+
+
+/*
+
+    <Router>
+    <Route path="/" component={Application} />
+    <Route path="/ojam" component={ClientApp} />
+    <Route path="*" component={ClientApp} />
+   
+  </Router>,
+    */
