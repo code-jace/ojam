@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import Application from './Application.js'
+import Routes from './Routes.js'
 
 import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss'
 import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
@@ -19,10 +20,10 @@ const render = Component =>
     rootEl
   )
 
-render(Application)
+render(Routes)
 if (module.hot) {
-  module.hot.accept('./Application', () => {
-    const next = require('./Application').default
+  module.hot.accept('./Routes', () => {
+    const next = require('./Routes').default
     render(next)
   })
 }

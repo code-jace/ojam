@@ -5,6 +5,7 @@ var io = require('socket.io')(http)
 var ip = require('ip')
 
 
+
 var YTsearch =require('youtube-search')
 var opts = { //these control the search function.
   maxResults: 10,
@@ -33,7 +34,10 @@ var trackListEnd = true
 var veto = 0
 var connectedUsers = 0
 
-
+setInterval(function(){ 
+    userCount()
+    sendInfo()
+  }, 1000)
 
 app.use(express.static('output'))
 
