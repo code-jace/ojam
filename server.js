@@ -111,6 +111,10 @@ io.on('connection', (socket) => {
     sendTrackList()
   })
 
+  socket.on('request address', function(){
+    sendAddress()
+  })
+
   socket.on('info request', function(){
     sendInfo()
   })
@@ -212,7 +216,7 @@ function nextTrack() {
   } else {
     trackListEnd = true
     console.log('End of playlist')
-    io.emit('title change', 'Add to Playlist PLS!!')
+    io.emit('title change', 'Playlist empty!! D:')
     //playhead = playhead - 1
     //console.log('Playhead: '+playhead)
   } 
@@ -260,4 +264,8 @@ function sendTrackList(){
 function sendInfo(){
   userCount()
   io.emit('info change', connectedUsers, veto)
+}
+
+function sendAddress(){
+  io.emit('send address', 'http://'+localIp+':3000')
 }

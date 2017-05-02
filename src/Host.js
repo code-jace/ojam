@@ -17,10 +17,28 @@ import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
 import {Grid, Row, Col} from 'react-bootstrap'
 
 
-
+import io from 'socket.io-client'
 
 
 export default class Host extends React.Component {
+
+  constructor(){
+    super()
+
+    this.socket = io()
+    this.socket.on('connect', function () {
+      console.log('connected to server')      
+    })
+
+    this.socket.emit('request address')
+
+    this.socket.on('send address', (ip) =>{
+      this.setState({address: ip})
+    })
+
+    this.state={'address': ''}
+  }
+
   render () {
     return <div className='host-app'>
       
@@ -30,7 +48,8 @@ export default class Host extends React.Component {
         <Row>
           <Col md={8} ld={8}>
           <h1>Ojam! Democratic Social Music System</h1>
-            <h2>Host Application</h2>
+          <h2>Guestlink: {this.state.address}</h2>
+
             <List />
           </Col>
 
@@ -45,7 +64,7 @@ export default class Host extends React.Component {
             <Veto />
             <br/>
             <Search />
-            <h3>Infomation</h3>
+            <h3>Information</h3>
             <InfoUsers />
           </Col>
         </Row>
