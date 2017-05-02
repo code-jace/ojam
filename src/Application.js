@@ -34,7 +34,7 @@ export default class Application extends React.Component {
       <div className='bottomDiv'>
         <Search />
       </div>
-      <ConnectionComponent /><ConnectionComponent /><ConnectionComponent /><ConnectionComponent />
+      <ConnectionComponent /><ConnectionComponent /><ConnectionComponent /><ConnectionComponent /><ConnectionComponent />
     </div>
   }
 }

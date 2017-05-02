@@ -249,7 +249,7 @@ function sendTitle(title){
 }
 
 function userCount(){
-  connectedUsers = Math.ceil(Object.keys(io.sockets.sockets).length / 8) //divide by number of connections per user
+  connectedUsers = Math.ceil(Object.keys(io.sockets.sockets).length / 9) //divide by number of connections per user
 }
 
 function sendTrackList(){
