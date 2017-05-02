@@ -1,7 +1,5 @@
 // global styles go here
-body{
-    padding: 5px
-}
+
 
 .centreDiv{
   position: absolute;
@@ -23,4 +21,20 @@ body{
 .host-app{
     right: 5px;
     left: 5px;
+}
+
+.ojam-bar{
+    background-color: #F1592A;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    
+}
+
+.guestlink{
+    font-size: 15px;
+    color: white;
+    float: right;
+    padding-right: 30px;
 }

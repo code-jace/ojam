@@ -44,8 +44,8 @@ export default class InfoUsers extends React.Component {
 
     return <div className='info-users'>
 
-      <h2>Connected Users: {this.state.connectedUsers}</h2>
-      <h2>Current Veto: {this.state.veto}/{Math.ceil(this.state.connectedUsers/2)}</h2>
+      <h4>Connected Users: {this.state.connectedUsers}</h4>
+      <h4>Current Veto: {this.state.veto}/{Math.ceil(this.state.connectedUsers/2)}</h4>
 
       
       

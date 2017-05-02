@@ -15,7 +15,7 @@ import ConnectionComponent from './components/ConnectionComponent'
 import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss'
 import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
 
-
+import {Grid, Row, Col} from 'react-bootstrap'
 
 
 
@@ -23,7 +23,10 @@ import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
 export default class Application extends React.Component {
   render () {
     return <div className=''>
-      <h1>Ojam! Democratic Social Music System</h1>
+      <div className='ojam-bar'>
+      <img src="http://i.imgur.com/k5v9uzA.png" height='30px'/>
+      </div>
+      <Grid fluid>
       <h3>Currently Playing:</h3>
       <InfoTitle />
       <InfoProgressBar /> 
@@ -31,9 +34,10 @@ export default class Application extends React.Component {
       <br/>     
       <Veto />
       <br/>
-      <div className='bottomDiv'>
-        <Search />
-      </div>
+      
+      <Search />
+      </Grid>
+
       <ConnectionComponent /><ConnectionComponent /><ConnectionComponent /><ConnectionComponent /><ConnectionComponent />
     </div>
   }
