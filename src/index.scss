@@ -2,3 +2,25 @@
 body{
     padding: 5px
 }
+
+.centreDiv{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.bottomDiv{
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    left: 5px;
+
+}
+
+.host-app{
+    right: 5px;
+    left: 5px;
+}

@@ -47,7 +47,7 @@ export default class List extends React.Component {
 
 
     return <div className='list'>
-      <h3>Current Playlist</h3>
+      <h3>Current Playlist || Length: {data.length}</h3>
       <Table responsive bordered striped>
           <thead>
             <tr>

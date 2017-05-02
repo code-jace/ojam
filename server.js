@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
   //console.log('a user has connected')
   userCount()
   sendInfo()
-  console.log('Connected Users: ' + connectedUsers)
+  //console.log('Connected Users: ' + connectedUsers)
 
   socket.on('chat message', function (msg) {
     console.log('emitting CHAT:', msg)
@@ -116,12 +116,12 @@ io.on('connection', (socket) => {
   })
 
   socket.on('remove track', function(targetId){
-    console.log('remove: '+targetId)
+    //console.log('remove: '+targetId)
     var index = -1;
     for(var i = playhead; i < trackList.length; i++) {
       if (trackList[i].id === targetId) {
           index = i
-          console.log('found at '+index)
+          //console.log('found at '+index)
           break
       }
     }
@@ -132,7 +132,12 @@ io.on('connection', (socket) => {
 
         console.log('removing '+trackList[index].title)
         trackList.splice(index, 1)
-        sendTrack(trackList[playhead].id, trackList[playhead].title)
+        if(trackList[playhead]){
+          sendTrack(trackList[playhead].id, trackList[playhead].title)
+        } else {
+          trackListEnd = true
+        }
+
         sendTrackList()
 
         } else {
@@ -145,7 +150,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('video lookup', function(target){
-    console.log(target)
+    //console.log(target)
     YTsearch(target, opts, function(err, results) {
       if(err) return console.log(err)
       //console.log(target)
@@ -171,7 +176,7 @@ io.on('connection', (socket) => {
       vetoPassed()
     }
     //console.log('a user has disconnected')
-    console.log('Connected USERS: ' + connectedUsers)
+    //console.log('Connected USERS: ' + connectedUsers)
   })
 
 
@@ -181,6 +186,9 @@ io.on('connection', (socket) => {
 
 http.listen(3000, function () {
   console.log('Operating on http://'+localIp+':3000!!')
+  console.log()
+  console.log('ALL USERS GO TO: http://'+localIp+':3000')
+  console.log('HOST APPLICATION: http://'+localIp+':3000/#/host')
 })
 
 //triggered when a veto is passed
@@ -214,7 +222,7 @@ function nextTrack() {
 
 function sendTrack(id, tit) {
   io.emit('vidId change', id)
-  console.log('title: ' + tit)
+  console.log('Now Playing: ' + tit)
   sendTitle(tit)
 }
 
@@ -223,7 +231,7 @@ function addTrack(id, tit, url) {
     console.log(tit+' added to playlist!')  
     
     if (trackListEnd){
-      console.log('playlist was stopped, sending: '+trackList[playhead].title)
+      //console.log('playlist was stopped, sending: '+trackList[playhead].title)
       trackListEnd = false
       sendTrack(trackList[playhead].id, trackList[playhead].title)
     }
@@ -232,7 +240,7 @@ function addTrack(id, tit, url) {
 }
 
 function sendTitle(title){
-  console.log('sending title: '+title)
+  //console.log('sending title: '+title)
   io.emit('title change', title)
 }
 

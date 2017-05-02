@@ -14,27 +14,43 @@ import InfoUsers from './components/InfoUsers'
 import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss'
 import 'bootstrap-sass/assets/javascripts/bootstrap.min.js'
 
+import {Grid, Row, Col} from 'react-bootstrap'
+
 
 
 
 
 export default class Host extends React.Component {
   render () {
-    return <div className=''>
-      <h1>Ojam! Democratic Social Music System</h1>
-      <h2>Host Application</h2>
-      <InfoTitle />
-      <InfoProgressBar />
-      <YoutubeVideo />
-      <Controls />
-      <Veto />
-      <Search />
-      <List />
-      <InfoUsers />
-      <p>
-        
-      </p>
+    return <div className='host-app'>
+      
+      <Grid fluid>
+        <Row>
+        </Row>
+        <Row>
+          <Col md={8} ld={8}>
+          <h1>Ojam! Democratic Social Music System</h1>
+            <h2>Host Application</h2>
+            <List />
+          </Col>
 
+          <Col md={4} ld={4}>
+            <YoutubeVideo />
+            <br/>
+            <h3>Currently Playing:</h3>
+            <InfoTitle />
+            <InfoProgressBar />
+            <Controls />
+            <br/>
+            <Veto />
+            <br/>
+            <Search />
+            <h3>Infomation</h3>
+            <InfoUsers />
+          </Col>
+        </Row>
+
+      </Grid>
       
     </div>
   }

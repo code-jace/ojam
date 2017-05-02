@@ -86,7 +86,6 @@ export default class YoutubeVideo extends React.Component {
     var vidUrl = ('https://www.youtube.com/watch?v='+vidId)
     
     return <div className='youtube-video'>
-        <h2>YoutubeVideo</h2>
         <ReactPlayer url={ vidUrl } playing={that.state.playing} onEnded={() => this.videoEnded()}
           onDuration={(duration) => this.setState({vidDuration: duration})}
           onProgress={(progress) => this.reportProgress(progress)}/>

@@ -71,7 +71,6 @@ sendTrack(event){
 
 
     return <div className='search'>
-        <h2>Search</h2>
 
         <Button
           bsStyle="primary"
