@@ -21,4 +21,4 @@ obtain copy
 connect computer running host application to speakers.
 distribute address for OJAM to networked devices.
 
-[poster]: http://i.imgur.com/Iklysj3.png "explanation poster"
+[explanation of project](http://i.imgur.com/Iklysj3.png)
