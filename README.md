@@ -8,6 +8,7 @@ Democratic Social Music System
 ___
 
 ## Operation
+
 ``` git clone
 ```
 obtain copy
